@@ -4,46 +4,40 @@
 
 define([
     'zepto',
-    'artTemplate',
-    'text!views/chatRoom.html',
-    'text!views/anshaoAnswer.html',
-    'text!views/myQuestion.html',
-    'text!views/dialog.html',
-], function ($, template, chatRoomTpl, anshaoAnswerTpl, myQuestionTpl, dialogTpl) {
+    './anshao',
+    // 'artTemplate',
+    // 'text!views/chatRoom.html',
+    // 'text!views/anshaoAnswer.html',
+    // 'text!views/myQuestion.html',
+    // 'text!views/dialog.html',
+], function ($, anshao/*$, anshao, template, chatRoomTpl, anshaoAnswerTpl, myQuestionTpl, dialogTpl */) {
     var ept = {
         count: 0,
         init: function () {
-            //点击安少问答
-            $('#call').bind('touchend', function () {
-                var $chatRoom = $(template.compile(chatRoomTpl)());
-                //todo localStorage 查询对应clientNo的历史对话
 
-                //todo 需要ajax请求问候语
-                $chatRoom.append($(template.compile(anshaoAnswerTpl)({
-                    answer: '欢迎进入安少问答',
-                    time: "" + new Date()
-                })));
-                var $dialog = $(template.compile(dialogTpl)());
-                $('body').append($chatRoom).append($dialog);
-
-                //发问
-                $('.dialog_submit').bind('touchend', function () {
-                    //todo ajax 请求问答
-                    $('.chat_room').append($(template.compile(myQuestionTpl)({
-                            question: $('#message').val() || '我的提问' + ept.count++,
-                            time: '' + new Date()
-                        })))
-                        .append($(template.compile(anshaoAnswerTpl)({
-                            answer: '安少回答' + Math.random(),
-                            time: '' + new Date()
-                        })));
+            $('#call_anshao').bind('touchend', function () {
 
 
-                    $('#message').val('');
+                //需要传入clientNo
+                anshao.init('12345').then(function () {
+                    anshao.createChatRoom('body').then(function () {
+                        anshao.scrollToEnd();
+                        $('.dialog_submit').bind('touchend', function () {
+                            anshao.askQuestion($('#message').val())
+                        });
+                    });
                 });
 
 
-            });
+                // anshao.createChatRoom('body', '12345').then(function () {
+                //     // $('.chat_room')[0].scrollTop($('.chat_room')[0].scrollHeight);
+                //     // $('.chat_room')[0].scrollTop = $('.chat_room')[0].scrollHeight
+                //     anshao.scrollToEnd();
+                //     $('.dialog_submit').bind('touchend', function () {
+                //         anshao.askQuestion($('#message').val())
+                //     });
+                // });
+            })
         }
     };
 
