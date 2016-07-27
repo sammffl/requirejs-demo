@@ -39,7 +39,7 @@ define(['zepto',
             this.history['greeting'] = '恭喜你,进入安少朋友圈。本少混迹金融圈，不坏有涵养，只想带你一起吃喝玩乐还赚high。有什么可以为您效劳的？';
             console.log(this.history);
             //从资源里面获取安少头像存到本地
-            this.getAvatarData('anshoa.jpg').then(function (imgData) {
+            this.getAvatarData('anshao.png').then(function (imgData) {
                 anshao.history['avatarAnshao'] = imgData;
                 console.log('anshaotouiang')
             }, function (error) {
